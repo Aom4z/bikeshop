@@ -1,5 +1,5 @@
 @extends("layouts.master")
-@section('title') BikeShop | รายการสินค้า @stop
+@section('title') BikeShop | รายการประเภทสินค้า @stop
 @section('content')
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <div class="container">
@@ -20,13 +20,21 @@
                 </div>
             </div>
         </nav>
-        <h1>6306021630056 วุฒินันท์ ถนอมทรัพย์</h1>
+        <h3>6306021630056 วุฒินันท์ ถนอมทรัพย์</h3>
         <h1>ประเภทสินค้า </h1>
         <div class="panel panel-default">
         <div class="panel-heading">
         <div class="panel-title"><strong>รายการประเภทสินค้า</strong></div>
             </div>
         <div class="panel-body">
+        <!-- search form -->
+        <form action="{{URL::to('category/search') }}" method ="post" class="form-inline">
+        {{ csrf_field() }}
+        <input type="text" name="q" class="form-control" placeholder="...">
+        <button type="submit" class="btn btn-primary">ค้นหา</button>
+        <a href="{{ URL::to('category/edit') }}" class="btn btn-success pull-right">เพิ่มประเภทสินค้าสินค้า</a>
+        </form> 
+        </div>
         <table class="table table-bordered">
     <thead>
     <tr>
@@ -36,19 +44,27 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($category as $c) 
+        @foreach($categorys as $c) 
         <tr>
         <td>{{$c->id}}</td>
         <td>{{ $c->name }}</td>
         <td>
-        <a href="#" class="btn btn-info"><i class="fa fa-edit"></i> แก้ไข</a>
-        <a href="#" class="btn btn-danger"><i class="fa fa-trash"></i> ลบ</a>
+        <a href="{{ URL::to('category/edit/' . $c->id) }}" class="btn btn-info"><i class="fa fa-edit"></i> แก้ไข</a>
+        <a href="#" class="btn btn-danger btn-delete" id-delete="{{ $c->id }}"><i class="fa fa-trash"></i> ลบ</a>
         </td>
         
         </tr> @endforeach
         </tbody>
         </table>
             </div>
+        {{ $categorys->links() }}
         </div>
+        <script>
+            $('.btn-delete').on('click', function() {if(confirm('คุณต้องการลบประเภทสินค้าหรือไม่?')){
+                var url ="{{ URL::to('category/remove') }}"
+                + '/' + $(this).attr('id-delete'); window.location.href = url;
+            }
+        });
+        </script>
     </div>
 @endsection

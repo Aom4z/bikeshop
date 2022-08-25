@@ -32,7 +32,7 @@
         <input type="text" name="q" class="form-control" placeholder="...">
         <button type="submit" class="btn btn-primary">ค้นหา</button>
         <a href="{{ URL::to('product/edit') }}" class="btn btn-success pull-right">เพิ่มสินค้า</a>
-        </form>
+        </form> 
             </div>
         <table class="table table-bordered bs-table">
 </table>
